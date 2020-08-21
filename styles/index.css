@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    width: 800px;
+    height: 600px;
+    position: absolute;
+}
+
+.container {
+    margin: 15% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.game-container {
+    position: relative;
+}
+
+.ui-canvas {
+    z-index: 3;
+}
+
+.game-canvas {
+    z-index: 2;
+}
+
+.bg-canvas {
+    z-index: 1;
+}
