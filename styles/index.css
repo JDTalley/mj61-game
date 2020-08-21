@@ -11,28 +11,16 @@ canvas {
     margin: 0 auto;
     width: 800px;
     height: 600px;
-    position: absolute;
 }
 
 .container {
-    margin: 15% auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-between;
 }
 
 .game-container {
     position: relative;
-}
-
-.ui-canvas {
-    z-index: 3;
-}
-
-.game-canvas {
-    z-index: 2;
-}
-
-.bg-canvas {
-    z-index: 1;
 }

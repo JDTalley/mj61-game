@@ -1,9 +1,7 @@
 // Initiate Objects
-const uiCanvas      = new Canvas("ui-canvas")
-const gameCanvas    = new Canvas("game-canvas")
-const bgCanvas      = new Canvas("bg-canvas")
-const width         = gameCanvas.width
-const height        = gameCanvas.height
+const canvas    = new Canvas("game-canvas")
+const width     = canvas.width
+const height    = canvas.height
 
 // Set up input
 const keys = []
@@ -18,5 +16,5 @@ initialize()
  * Functions
  */
 function initialize() {
-    bgCanvas.setBackground("#000")
+    canvas.setBackground("#000")
 }
