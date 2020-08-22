@@ -24,7 +24,7 @@ class Canvas {
         }
 
         this.drawPlayer = function (player) {
-            this.context.drawImage(this.spriteSheet, 136, 256, 16, 16, player.getX, player.getY, 16, 16)
+            this.context.drawImage(this.spriteSheet, 136, 256, 16, 16, player.getX(), player.getY(), 16, 16)
         }
     }
 }

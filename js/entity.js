@@ -29,15 +29,25 @@ class Entity {
         this.x = num
     }
 
-    getY(num) {
+    setY(num) {
         this.y = num
     }
 
-    getDX(num) {
+    setDX(num) {
         this.dx = num
     }
 
-    getDY(num) {
+    setDY(num) {
         this.dy = num
+    }
+
+    // Movement
+    updatePosition() {
+        this.x += this.dx
+        this.y += this.dy
+
+        if (this.dx < 1) {
+            this.dx = 0
+        }
     }
 }
