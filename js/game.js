@@ -2,68 +2,75 @@
 const canvas    = new Canvas("game-canvas")
 const width     = canvas.width
 const height    = canvas.height
+let dt          = 0
+let prevTime    = window.performance.now()
 
-const player = new Entity(32, height-32)
+const player    = new Entity(160, height-32)
+let playerPos   = {
+    x: 0,
+    y: 0
+}
 
 // Set up input
 const keys          = []
-window.onkeyup      = (e) => { keys[e.code] = false; }
-window.onkeydown    = (e) => { keys[e.code] = true }
+window.addEventListener("keyup", (e) => { keys[e.code] = false; })
+window.addEventListener("keydown", (e) => { keys[e.code] = true })
 
 // Game Variables
-let hasJumped = false;
+let isJumping = false
 
 // Initialize Game
 initialize()
 
-// Game Loop
-gameTick()
-
 /***********
  * Functions
  */
-function gameTick() {
-    // Left/Right movement
-    if (keys["ArrowRight"]) {
-        if (player.getDX() < 3) {
-            player.setDX(player.getDX()+1)
-        }
-    } else if (keys["ArrowLeft"]) {
-        if (player.getDX() > -3) {
-            player.setDX(player.getDX()-1)
-        }
-    } else {
-        if (player.getDX() > 0) {
-            player.setDX(player.getDX()-.1)
-        } else if (player.getDX() < 0) {
-            player.setDX(player.getDX()+.1)
-        }
-    }
+function gameTick(timestamp) {
+    requestAnimationFrame(gameTick)
 
-    // Update Position
-    player.updatePosition()
-    console.log(player.getDX())
+    dt = (timestamp - prevTime) / 1000
+    prevTime = timestamp
 
-    canvas.setBackground("#000")
+    update(dt)
+
     redrawCanvas()
-
-    queueTick()
 }
 
 function initialize() {
     canvas.setBackground("#000")
     canvas.loadImages()
+    if (canvas.imgLoaded == 2) {
+        // Game Loop
+        requestAnimationFrame(gameTick)
+    }
 }
 
-function queueTick() {
-    requestAnimationFrame(gameTick)
+function update(dt) {
+    getInput()
+    player.updatePosition(dt)
+    playerPos = calcGameGrid(player)
+    checkCollision(playerPos)
+}
+
+function getInput() {
+    // Left/Right movement
+    if (keys["ArrowRight"]) {
+        player.setDX(500)
+    } else if (keys["ArrowLeft"]) {
+        player.setDX(-500)
+    }
+
+    // Jump
+    if (keys["Space"] && !isJumping) {
+        player.setDY(-500)
+        isJumping = !isJumping
+    }
 }
 
 function redrawCanvas() {
-    if (canvas.imgLoaded == 1) {
-        drawLevel()
-        canvas.drawPlayer(player)
-    }
+    canvas.setBackground("#000")
+    drawLevel()
+    canvas.drawPlayer(player)
 }
 
 function drawLevel() {
@@ -76,3 +83,34 @@ function drawLevel() {
     }
 }
 
+function calcGameGrid(entity) {
+    let x = Math.floor(entity.x / 16)
+    let y = Math.floor(entity.y / 16)
+
+    return ({
+        x: x, 
+        y: y
+    })
+}
+
+function checkCollision(pos) {
+    let blocks = {
+        block: level1[pos.y][pos.x],
+        blockDown: level1[pos.y + 1][pos.x],
+        blockLeft: level1[pos.y][pos.x - 1],
+        blockRight: level1[pos.y][pos.x + 1]
+    }
+
+    switch (true) {
+        case (blocks.blockDown == 1 && (player.y + 16) > (pos.y + 1) * 16):
+            console.log(blocks.blockDown)
+            player.y = ((pos.y + 1) * 16) - 16
+            player.setDY(0)
+            isJumping = !isJumping
+            break;
+        case (blocks.block == 1):
+            player.y = ((pos.y + 1) * 16)
+            player.setDY(0)
+            break;
+    }
+}
