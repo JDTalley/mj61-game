@@ -74,10 +74,10 @@ function redrawCanvas() {
 }
 
 function drawLevel() {
-    for(let i = 0; i < level1.length; i++) {
-        for(let j = 0; j < level1[0].length; j++) {
+    for (let i = 1; i < level1.length - 1; i++) {
+        for(let j = 1; j < level1[0].length - 1; j++) {
             if(level1[i][j] == 1) {
-                canvas.drawBrick(j*16, i*16)
+                canvas.drawBrick((j - 1)*16, (i - 1)*16)
             }
         }
     }
@@ -94,16 +94,18 @@ function calcGameGrid(entity) {
 }
 
 function checkCollision(pos) {
+    pX = (pos.x + 1)
+    pY = (pos.y + 1)
     let blocks = {
-        block: level1[pos.y][pos.x],
-        blockDown: level1[pos.y + 1][pos.x],
-        blockLeft: level1[pos.y][pos.x - 1],
-        blockRight: level1[pos.y][pos.x + 1]
+        block: level1[pY][pX],
+        blockDown: level1[pY + 1][pX],
+        blockLeft: level1[pY][pX - 1],
+        blockRight: level1[pY][pX + 1]
     }
-
+    
+    // Collisions
     switch (true) {
         case (blocks.blockDown == 1 && (player.y + 16) > (pos.y + 1) * 16):
-            console.log(blocks.blockDown)
             player.y = ((pos.y + 1) * 16) - 16
             player.setDY(0)
             isJumping = !isJumping
