@@ -7,23 +7,6 @@ class Entity {
         this.jerk   = 0
     }
 
-    // Getters
-    getX() {
-        return this.x
-    }
-
-    getY() {
-        return this.y
-    }
-
-    getDX() {
-        return this.dx
-    }
-
-    getDY() {
-        return this.dy
-    }
-
     // Setters
     setX(num) {
         this.x = num
@@ -42,12 +25,22 @@ class Entity {
     }
 
     // Movement
-    updatePosition() {
-        this.x += this.dx
-        this.y += this.dy
+    updatePosition(dt) {
+        this.x += (this.dx * dt)
+        this.y += (this.dy * dt)
 
+        // Gravity
+        this.dy += (750 * dt)
+
+        // Friction
+        this.dx *= (0.5 * dt)
+/* 
         if (this.dx < 1) {
             this.dx = 0
         }
+
+        if (this.dy < 1) {
+            this.dy = 0
+        } */
     }
 }
