@@ -16,7 +16,7 @@ class Canvas {
         this.loadImages = function () {
             this.bgSprites.src = "./assets/sprites-outlines.png"
             this.imgLoaded++
-            this.playerSprites.src = "./assets/industrial.png"
+            this.playerSprites.src = "./assets/industrial2.png"
             this.imgLoaded++
         }
 
